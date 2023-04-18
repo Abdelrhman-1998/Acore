@@ -1,0 +1,79 @@
+<div class="">
+    <h1 class="text-gray-900 font-bold text-2xl lg:text-4xl">
+        Book Details
+    </h1>
+    <div class="relative overflow-x-auto shadow-md rounded-lg  my-4 bg-white  p-8 ">
+        <div class="flex w-full flex-wrap gap-6 justify-between">
+            <div class="bookCard flex flex-wrap gap-8">
+                <div class="coverPhoto ">
+                    <img class="w-full h-full" [ngClass]="!bookDetails?'invisible':''" [src]="bookDetails?bookDetails['photo']:''" alt="bookCover">
+                    <fa-icon class="text-xl text-[#d5d5d5] relative left-[30px] top-[-10px]" [icon]="Icons[0]"></fa-icon>
+                </div>
+                <div class="text-xl">
+                    <p class="text-gray-900 font-bold my-2">{{bookDetails?bookDetails['title']:''}}</p>
+                    <div class="flex gap-4">
+                        <div class="flex flex-col gap-1">
+                            <span class="text-blue font-bold">478</span>
+                            <span class="text-gray-900 text-sm">pages</span>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <span class="text-blue font-bold">20h</span>
+                            <span class="text-gray-900 text-sm">toRead</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="actions m-auto sm:m-0">
+                <div class="flex flex-wrap gap-4">
+                    <button (click)="openConfirmDelete(bookID,photoRef)" class="bg-red-700 p-3 w-[100px] text-white rounded-[16px]">
+                        Delete
+                    </button>
+                    <button [routerLink]="['/dashboard/books/edit',bookID]" class="text-white p-3 w-[100px] bg-blue rounded-[16px]">
+                        Edit
+                    </button>
+                </div>
+ 
+
+            </div>
+
+        </div>
+        <div class="md:flex-row flex flex-col my-8 gap-4 w-full">
+            <div class="md:w-1/3 flex flex-col gap-4">
+                <p class="text-gray-900">
+                    By {{bookDetails?bookDetails['author']:''}} | {{bookDetails?(bookDetails['releaseDate'] | date:'short'):''}}
+                </p>
+                <p class="text-blue font-bold">
+                    {{bookDetails?(bookDetails['price'] | currency ):''}}  
+                </p>
+                <p class="text-gray-900">
+                    ISBN: {{bookDetails?bookDetails['ISBN']:''}}
+                </p>
+                <p class="text-gray-900">
+                    Version: {{bookDetails?bookDetails['version']:''}}
+                </p>
+                <div>
+                    <mat-chip-list>
+                        <mat-chip
+                        *ngFor="let data of bookDetails?bookDetails['category']:[]">
+                        {{data}}
+               
+                      </mat-chip>
+                    </mat-chip-list>
+
+                </div>
+            </div>
+            <div class="md:w-1/3 flex flex-col gap-4">
+                <p class="text-gray-900 font-bold text-xl">
+                    Brief
+                </p>
+                <p class="w-full break-words">
+                    {{bookDetails?bookDetails['brief']:''}}
+                </p>
+            </div>
+            <div class="md:w-1/3">
+    
+            </div>
+        </div>
+    </div>
+
+</div>

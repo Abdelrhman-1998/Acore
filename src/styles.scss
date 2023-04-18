@@ -1,1 +1,71 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@include mat.core();
+
+$Acore-primary: mat.define-palette(mat.$indigo-palette);
+$Acore-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$Acore-warn: mat.define-palette(mat.$red-palette);
+
+$Acore-theme: mat.define-light-theme((
+  color: (
+    primary: $Acore-primary,
+    accent: $Acore-accent,
+    warn: $Acore-warn,
+  )
+));
+
+@include mat.all-component-themes($Acore-theme);
+
+
+@import '../node_modules/tailwindcss/base.css';
+@import '../node_modules/tailwindcss/components.css';
+@import '../node_modules/tailwindcss/utilities.css';
+
+
+html, body { height: 100%; }
+body { margin: 0;  }
+
+.loginForm{
+  .mat-form-field-appearance-fill .mat-form-field-flex{
+    @apply bg-aqua;
+
+  }
+  .loginFailed{
+    background-color: red;
+    color: white;
+}
+
+}
+.addBookForm{
+
+    .mat-form-field-appearance-fill .mat-form-field-flex{
+      @apply bg-aqua;
+      padding: 0.75em 0.75em 0 0.75em;
+    }
+    textarea{
+  
+      @apply bg-aqua;
+ 
+    }
+  .chipError{
+    *{
+      @apply text-[#f44336];
+    }
+    .mat-form-field-appearance-fill .mat-form-field-underline::before {
+      @apply bg-[#f44336];
+    }
+
+  }
+  .date{
+    .mat-form-field-infix{
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+
+    .mat-icon-button {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+  }
+}

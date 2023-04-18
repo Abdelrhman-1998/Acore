@@ -1,0 +1,63 @@
+<div class="min-h-full w-full  md:flex justify-center items-center loginForm ">
+    <div class="bg-white my-8 md:my-0 mx-8 sm:mx-12 lg:mx-20 rounded-[16px] shadow-2xl flex md:w-[80%]">
+        <form [formGroup]="loginForm" (ngSubmit)="login()" class="w-full md:w-8/12 p-8 md:p-12 xl:p-16 ">
+            <h1 class="font-bold text-xl lg:text-2xl">
+                Please enter your email address and password <br class="hidden lg:block">
+                to access your account
+            </h1>
+            <div class="w-full my-4">
+                <div class="my-4 email">
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Enter your email</mat-label>
+                        <input type="email" formControlName="email" matInput placeholder="pat@example.com">
+                        <mat-error *ngIf="loginForm.controls['email'].errors?loginForm.controls['email'].errors['email']:false?true:false">
+                            Please enter a valid email format
+                        </mat-error>
+                    <mat-error *ngIf="loginForm.controls['email'].errors?loginForm.controls['email'].errors['required']:false">
+                          Email is required
+                    </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="my-4 password">
+                    <mat-form-field appearance="fill" class="w-full relative">
+                        <div (click)="togglePassword()" class="absolute right-0 top-0 cursor-pointer">
+                            {{hidePassword?'show':'hide'}}
+                        </div>
+                        <mat-label>Password</mat-label>
+                        <input [type]="hidePassword?'password':'text'" formControlName="password" matInput>
+                        <mat-error *ngIf="loginForm.controls['password'].errors?loginForm.controls['password'].errors['required']:false">
+                                password is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div *ngIf="loginForm.controls['password'].touched && !loginForm.controls['password'].valid ">
+             
+                            <div *ngIf=" loginForm.controls['password'].errors?loginForm.controls['password'].errors['pattern']:false ">
+                       
+                                <p  class="text-[75%] px-[12px] text-[#f44336]"  *ngFor="let error of passswordValidations">
+                                    {{error}}
+                                </p>
+                            </div>
+            
+                    </div>
+
+                </div>
+                <div class="flex gap-4" > 
+                    <button *ngIf="!showSpinner"   [ngClass]="loginForm.invalid?'opacity-70':''"  class="rounded-[1rem] bg-blue p-4 text-white w-[150px]">
+                        Sign in 
+                    </button>
+                </div>
+                <div *ngIf="showSpinner" class="flex w-full justify-center">
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                </div>
+                <hr class="my-4">
+                <div class="logo">
+                    <img class="w-[100px]" src="../../assets/logo.png" alt="acore-logo">
+                </div>
+            </div>
+        </form>
+        <div class="hidden md:block md:w-4/12 coverImage rounded-[1rem] rounded-ss-none rounded-es-none">
+</div>
+
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<mat-form-field class="example-chip-list " [ngClass]="dataCtrl.touched&&startData.length===0?panelClass+' chipError':panelClass"  appearance="fill">
+    <mat-label>{{label}}</mat-label>
+    <mat-chip-list #chipList aria-label="chips-selection">
+      <mat-chip
+        *ngFor="let data of startData"
+        (removed)="remove(data)">
+        {{data}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input
+        [placeholder]="chipPlaceholder"
+        #dataInput
+        [formControl]="dataCtrl"
+        [matAutocomplete]="auto"
+    
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)">
+ 
+       
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let data of filteredData | async" [value]="data">
+        {{data}}
+      </mat-option>
+    </mat-autocomplete>
+</mat-form-field>
+<p *ngIf="(dataCtrl.touched&&startData.length===0)" class="text-[#f44336] text-[75%] px-[1em] mat-form-field-subscript-wrapper">
+    category is required
+</p>

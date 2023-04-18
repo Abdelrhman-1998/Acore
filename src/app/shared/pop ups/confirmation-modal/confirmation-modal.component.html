@@ -1,0 +1,18 @@
+<div class="w-full flex justify-between gap-8 items-center  ">
+    <p mat-dialog-title [ngClass]="ModalData.title.class" class="text-xl font-bold my-0">{{ModalData.title.value}}</p>
+    <i class="fa-solid fa-close text-lg cursor-pointer"  mat-dialog-close></i>
+</div>
+<div mat-dialog-content class="my-8 ">
+        <p [innerHTML]="ModalData.subtitle.value" [ngClass]="ModalData.subtitle.class"></p>
+</div>
+<div mat-dialog-actions>
+
+    <div *ngIf="loadingSpinnerStatus" class="flex justify-center my-4 w-full">
+        <mat-spinner [diameter]="50" ></mat-spinner>
+    </div>
+
+    <div *ngIf="!loadingSpinnerStatus" class="flex flex-col-reverse sm:flex-row w-full gap-4 mb-6">
+        <button  [innerHTML]="item.value" (click)="item.onClickFn()"  mat-ripple [ngClass]="item.class" class="border border-solid  flex-1 rounded-[8px] p-4" *ngFor="let item of ModalData.actions" ></button>
+    </div>
+    
+</div>

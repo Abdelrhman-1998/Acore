@@ -1,0 +1,154 @@
+<div class="">
+    <h1 class="text-gray-900 font-bold text-2xl lg:text-4xl">
+        Books
+    </h1>
+    <div class="flex gap-4 justify-between w-full items-center flex-wrap">
+        <div class="my-4 w-[400px]">   
+            <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only ">Search</label>
+            <div class="relative">
+     
+                <button (click)="searchBook()" type="button" class="absolute cursor-pointer inset-y-0 right-0 flex items-center pr-3 ">
+                    <svg aria-hidden="true" class="w-5 h-5 cursor-pointer text-gray-500 " fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </button>
+                <input  [formControl]="searchValue" type="search" id="default-search" class="block w-full p-4 pr-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 " placeholder="Search By title,author ..." required>
+
+            </div>
+        </div>
+        <div>
+            <button mat-ripple [routerLink]="['/dashboard/books/add']"  class="rounded-[16px] w-[150px] p-4 bg-blue hover:bg-purple-600 text-white">
+                + Add Book
+            </button>
+        </div>
+
+    </div>
+    
+    <div *ngIf="!filteredBook.length&&!loadingSpinner&&!bookNotFound"  class="relative overflow-x-auto shadow-md rounded-lg  my-4">
+        <table class="w-full text-sm text-left text-gray-500 ">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                <tr class="text-gray-900">
+                    <th scope="col" class="px-6 py-3 ">
+                        Book Title
+                    </th>
+                    <th scope="col" class="px-6 py-3 ">
+                        Book Category
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                    Book Author
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                    Book ISBN
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                    Book Version
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="bg-white border-b" *ngFor="let book of books | paginate:paginationOptions;let i=index;">
+                    <td class="px-6 py-4  font-medium text-gray-900 whitespace-nowrap">
+                        {{book['title']}}
+                    </td>
+                    <td class="px-6 py-4  font-medium text-gray-900 whitespace-nowrap">
+                        {{book['category'] | slice:0:1}}
+                    </td>
+                    <td class="px-6 py-4  font-medium text-gray-900 whitespace-nowrap">
+                        {{book['author']}}
+                    </td>
+                    <td class="px-6 py-4  font-medium text-gray-900 whitespace-nowrap">
+                        {{book['ISBN']}}
+                    </td>
+                    <td class="px-6 py-4  font-medium text-gray-900 whitespace-nowrap">
+                        {{book['version']}}
+                    </td>
+                    <td class="px-6 py-4  font-medium text-gray-900 whitespace-nowrap">
+                        <a class="mx-2 text-blue cursor-pointer" [routerLink]="['/dashboard/books',book['id']]">
+                            <fa-icon [icon]="Icons[0]"></fa-icon>
+                        </a>
+                        <a class="mx-2 text-green-400 cursor-pointer" [routerLink]="['/dashboard/books/edit',book['id']]">
+                            <fa-icon [icon]="Icons[1]"></fa-icon>
+                        </a>
+                        <a class="mx-2 text-red-600 cursor-pointer" (click)="openConfirmDelete(book['id'],i,book['photoRef']!)">
+                            <fa-icon [icon]="Icons[2]"></fa-icon>
+                        </a>
+                    </td>
+                </tr>
+
+                
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="filteredBook.length&&!loadingSpinner" class="relative overflow-x-auto shadow-md rounded-lg  my-4">
+        <table class="w-full text-sm text-left text-gray-500 ">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                <tr class="text-gray-900">
+                    <th scope="col" class="px-6 py-3 ">
+                        Book Title
+                    </th>
+                    <th scope="col" class="px-6 py-3 ">
+                        Book Category
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                    Book Author
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                    Book ISBN
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                    Book Version
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="bg-white border-b" *ngFor="let book of filteredBook | paginate:searchPaginationOptions;let i=index;">
+                    <td class="px-6 py-4  font-medium text-gray-900 whitespace-nowrap">
+                        {{book['title']}}
+                    </td>
+                    <td class="px-6 py-4  font-medium text-gray-900 whitespace-nowrap">
+                        {{book['category'] | slice:0:1}}
+                    </td>
+                    <td class="px-6 py-4  font-medium text-gray-900 whitespace-nowrap">
+                        {{book['author']}}
+                    </td>
+                    <td class="px-6 py-4  font-medium text-gray-900 whitespace-nowrap">
+                        {{book['ISBN']}}
+                    </td>
+                    <td class="px-6 py-4  font-medium text-gray-900 whitespace-nowrap">
+                        {{book['version']}}
+                    </td>
+                    <td class="px-6 py-4  font-medium text-gray-900 whitespace-nowrap">
+                        <a class="mx-2 text-blue cursor-pointer" [routerLink]="['/dashboard/books',book['id']]">
+                            <fa-icon [icon]="Icons[0]"></fa-icon>
+                        </a>
+                        <a class="mx-2 text-green-400 cursor-pointer" [routerLink]="['/dashboard/books/edit',book['id']]">
+                            <fa-icon [icon]="Icons[1]"></fa-icon>
+                        </a>
+                        <a class="mx-2 text-red-600 cursor-pointer" (click)="openConfirmDelete(book['id'],i,book['photoRef']!,'filter')">
+                            <fa-icon [icon]="Icons[2]"></fa-icon>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="bookNotFound&&!loadingSpinner" class="w-full my-4">
+            <p class="text-gray-900 font-bold" >Can't find book with this title or author name</p>
+            <button class=" text-black my-2 " (click)="resetFilter()"> Return</button>
+    </div>
+
+    <div *ngIf="loadingSpinner" class="w-full flex justify-center my-4">
+        <mat-spinner [diameter]="50"></mat-spinner>
+    </div>
+
+    <div class="w-full flex justify-end">
+        <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+    </div>
+    
+</div>

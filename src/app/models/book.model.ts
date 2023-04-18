@@ -1,0 +1,15 @@
+export interface Book{
+    id?:string,
+    photoRef?:string,
+    title:string,
+    author:string,
+    category:string[],
+    price:number,
+    photo:string,
+    version:string,
+    ISBN:string,
+    edition?:string,
+    olderVersions?:string[],
+    releaseDate?:Date | string,
+    brief:string,
+}

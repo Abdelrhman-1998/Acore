@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "books":{
+            ".indexOn": ["title","author"],
+       "$uid": {
+          ".indexOn": ["title","author"],
+             ".read": "auth!=null",
+    				".write": "auth!=null"
+       },
+    ".read": "auth!=null",
+    ".write": "auth!=null"
+    },
+    ".read": true,
+    ".write": true
+  }
+}

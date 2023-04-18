@@ -1,0 +1,135 @@
+
+<div class="">
+    <h1 class="text-gray-900 font-bold text-2xl lg:text-4xl">
+        {{headerTitle}}
+    </h1>
+    <form (ngSubmit)="createBook()" [formGroup]="BookForm" class="relative overflow-x-auto shadow-md rounded-lg addBookForm my-4 bg-white flex lg:flex-row flex-col ">
+            <div class="lg:w-6/12 p-4">
+                <div class="my-4">
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Book title</mat-label>
+                        <input formControlName="title"  type="text" matInput placeholder="ex:Harry Potter">
+                        <mat-error >
+                            Book title is required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="my-4">
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Book Author</mat-label>
+                        <input formControlName="author" type="text" matInput placeholder="ex:Charles Dickens">
+                        <mat-error >
+                           Book author is required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="my-4 relative">
+                    <app-multi-select-chips  [startData]="startCategoryData" (onDataChanged)="storeCategory($event)" [label]="'category *'" [chipPlaceholder]="'Select category ...'" [panelClass]="'w-full'" [allData]="categories"></app-multi-select-chips>
+                </div>
+                <div class="my-4">
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Book Price</mat-label>
+                        <input maxlength="2" formControlName="price" type="text" matInput placeholder="ex:35$">
+                            <mat-error *ngIf="BookForm.controls['price'].errors?BookForm.controls['price'].errors['required']:false">
+                                Price is required
+                            </mat-error>
+                            <mat-error *ngIf="BookForm.controls['price'].errors?BookForm.controls['price'].errors['pattern']:false" >
+                                price must be a number
+                            </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="my-4">
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Book Version</mat-label>
+                        <input formControlName="version" type="text" matInput >
+                        <mat-error >
+                            book version is required.
+                        </mat-error>
+       
+                    </mat-form-field>
+                </div>
+                <div class="my-4">
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Book older Versions</mat-label>
+                        <mat-select formControlName="olderVersions">
+                            <mat-option *ngFor="let version of booksVersions" [value]="version">
+                                {{version}}
+                            </mat-option>
+                        </mat-select>
+                        
+                    </mat-form-field>
+                </div>
+                <div class="my-4">
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Book Edition</mat-label>
+                        <input formControlName="edition" type="text" matInput >
+                    </mat-form-field>
+                </div>
+                <div class="my-4">
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Book ISBN</mat-label>
+                        <input formControlName="ISBN" type="text" matInput placeholder="ex:978-3-16-148410-0">
+                        <mat-error *ngIf="BookForm.controls['ISBN'].errors?BookForm.controls['ISBN'].errors['required']:false">
+                            ISBN is required
+                        </mat-error>
+                        <mat-error *ngIf="BookForm.controls['ISBN'].errors?BookForm.controls['ISBN'].errors['pattern']:false">
+                           ISBN should consist of numbers and dashes only (10-13)
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="my-4">
+                    <mat-form-field class="w-full date" appearance="fill">
+                        <mat-label>Choose a date</mat-label>
+                        <input formControlName="releaseDate" matInput [matDatepicker]="picker">
+                
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                </div>
+            </div>
+            <div class="lg:w-6/12 p-4 ">
+                <div class="flex flex-col items-center gap-8">
+                    <div class="coverPhoto ">
+                        <img class="w-full h-full" [ngClass]="!BookForm.controls['photo'].value?'invisible':''" [src]="BookForm.controls['photo'].value"  alt="bookCover">
+                        <fa-icon class="text-xl text-[#d5d5d5] relative left-[30px] top-[-10px]" [icon]="Icons[0]"></fa-icon>
+                    </div>
+                    <p class="text-gray-500 ">
+                        Best Dimensions for bookcover are 128*200
+                    </p>
+             
+                    <button [ngClass]="BookForm.controls['photo'].invalid&&photoIsRequired?'border-red-600':''" mat-ripple (click)="browsefile(ele)"  type="button"  mat-ripple class="rounded-[16px] w-[200px] p-4 text-black border hover:bg-[#eee] hover:border-black border-blue">
+                        Upload Book cover *
+                        
+                    </button>
+                    <p class="text-[#f44336] text-[75%] px-[1em] " *ngIf="BookForm.controls['photo'].invalid&&photoIsRequired">
+                        image is required
+                    </p>
+                    <input #ele  [accept]="'image/*'" (change)="onUploadFile($event)" type="file" class="hidden">
+                </div>
+                <div class="my-4 p-4 relative">
+                    <mat-form-field appearance="fill" class="example-full-width w-full">
+                        <mat-label>Leave a Brief</mat-label>
+                        <textarea rows="10" maxlength="800" class="bg-aqua" matInput formControlName="brief" ></textarea>
+                        <mat-error *ngIf="BookForm.controls['brief'].errors?BookForm.controls['brief'].errors['required']:false">
+                            brief is required
+                        </mat-error>
+                        <mat-error *ngIf="BookForm.controls['brief'].errors?BookForm.controls['brief'].errors['maxlength']:false">
+                            brief is too long
+                        </mat-error>
+                    </mat-form-field>
+                    <div class="absolute right-0 bottom-0 p-[16px]">
+                        <span class="text-sm text-gray-100">{{BookForm.controls['brief'].value?.length}}/800</span>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-4">
+                    <button mat-ripple [routerLink]="['/dashboard/books']" type="button" class="bg-seaShell p-4 w-[100px] text-gray-900 rounded-[16px] hover:opacity-75">
+                       Cancel
+                    </button>
+                    <button mat-ripple type="submit" class="bg-blue hover:bg-purple-600 p-4 w-[100px] text-white rounded-[16px]">
+                        Save
+                    </button>
+                </div>
+            </div>
+    </form>
+
+</div>

@@ -1,0 +1,20 @@
+.coverImage{
+    position: relative;
+    &::before{
+        content:"";
+        width: 100%;
+        display: block;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 100%;
+        opacity: 0.6;
+        border-radius: inherit;
+        background-image: linear-gradient(to left top, #0516a8, #5b1db0, #8629b7, #ac3abd, #cd4dc4);
+    }
+    background-image: url('../../assets/book-shelf.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+
+}
